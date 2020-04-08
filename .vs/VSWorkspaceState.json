@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Admin_przychodni",
+    "\\Admin_przychodni\\Admin_przychodni",
+    "\\Admin_przychodni\\bin",
+    "\\Admin_przychodni\\obj",
+    "\\Admin_przychodni\\Properties"
   ],
-  "SelectedNode": "\\Admin_przychodni.sln",
+  "SelectedNode": "\\Admin_przychodni",
   "PreviewInSolutionExplorer": false
 }
