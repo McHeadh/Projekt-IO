@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Admin_przychodni"
+    "\\Admin_przychodni",
+    "\\Admin_przychodni\\Admin_przychodni\\bin"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\Admin_przychodni",
   "PreviewInSolutionExplorer": false
 }
