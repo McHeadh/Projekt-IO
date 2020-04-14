@@ -3,10 +3,8 @@
     "",
     "\\Admin_przychodni",
     "\\Admin_przychodni\\Admin_przychodni",
-    "\\Admin_przychodni\\bin",
-    "\\Admin_przychodni\\obj",
     "\\Admin_przychodni\\Properties"
   ],
-  "SelectedNode": "\\Admin_przychodni",
+  "SelectedNode": "\\Admin_przychodni.sln",
   "PreviewInSolutionExplorer": false
 }

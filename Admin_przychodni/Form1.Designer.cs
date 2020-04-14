@@ -39,9 +39,9 @@
             this.doctorButton = new System.Windows.Forms.Button();
             this.receptionistButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
-            this.adminControlPanel = new Admin_przychodni.AdminControl();
-            this.doctorControlPanel = new Admin_przychodni.DoctorControl();
             this.receptionistControlPanel = new Admin_przychodni.ReceptionistControl();
+            this.doctorControlPanel = new Admin_przychodni.DoctorControl();
+            this.adminControlPanel = new Admin_przychodni.AdminControl();
             this.SuspendLayout();
             // 
             // welcomeLabel
@@ -145,13 +145,13 @@
             this.backButton.UseVisualStyleBackColor = true;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
-            // adminControlPanel
+            // receptionistControlPanel
             // 
-            this.adminControlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adminControlPanel.Location = new System.Drawing.Point(0, 0);
-            this.adminControlPanel.Name = "adminControlPanel";
-            this.adminControlPanel.Size = new System.Drawing.Size(718, 450);
-            this.adminControlPanel.TabIndex = 11;
+            this.receptionistControlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.receptionistControlPanel.Location = new System.Drawing.Point(0, 0);
+            this.receptionistControlPanel.Name = "receptionistControlPanel";
+            this.receptionistControlPanel.Size = new System.Drawing.Size(718, 450);
+            this.receptionistControlPanel.TabIndex = 13;
             // 
             // doctorControlPanel
             // 
@@ -161,13 +161,13 @@
             this.doctorControlPanel.Size = new System.Drawing.Size(718, 450);
             this.doctorControlPanel.TabIndex = 12;
             // 
-            // receptionistControlPanel
+            // adminControlPanel
             // 
-            this.receptionistControlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.receptionistControlPanel.Location = new System.Drawing.Point(0, 0);
-            this.receptionistControlPanel.Name = "receptionistControlPanel";
-            this.receptionistControlPanel.Size = new System.Drawing.Size(718, 450);
-            this.receptionistControlPanel.TabIndex = 13;
+            this.adminControlPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adminControlPanel.Location = new System.Drawing.Point(0, 0);
+            this.adminControlPanel.Name = "adminControlPanel";
+            this.adminControlPanel.Size = new System.Drawing.Size(718, 450);
+            this.adminControlPanel.TabIndex = 11;
             // 
             // Form1
             // 

@@ -24,3 +24,9 @@ C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\obj\Debug\Admin
 C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\obj\Debug\Admin_przychodni.csproj.CoreCompileInputs.cache
 C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\obj\Debug\Admin_przychodni.exe
 C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\obj\Debug\Admin_przychodni.pdb
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\bin\Debug\MySql.Data.dll
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\bin\Debug\Google.Protobuf.dll
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\bin\Debug\Renci.SshNet.dll
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\bin\Debug\MySql.Data.xml
+C:\Users\Kartas\Source\Repos\McHeadh\Projekt-IO\Admin_przychodni\obj\Debug\Admin_przychodni.csproj.CopyComplete

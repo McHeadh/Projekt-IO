@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using MySql.Data.MySqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Admin_przychodni
             LabelsHide();
         }
 
+        MySqlConnection conn = new MySqlConnection("datasource=sql7.freemysqlhosting.net;port=3306;username=sql7313340;password=EMvDjki61A");
         public bool isAdministrator = false;
         public bool isDoctor = false;
         public bool isReceptionist = false;
@@ -101,13 +103,50 @@ namespace Admin_przychodni
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            if(isAdministrator)
-                adminControlPanel.Show();
+            if (isAdministrator)
+                Login("Administrator");
             if (isDoctor)
-                doctorControlPanel.Show();
+                Login("Doctor");
             if (isReceptionist)
-                receptionistControlPanel.Show();
+                Login("Receptionist");
             ClearTextBox();
+        }
+
+        private void Login(string choice)
+        {
+            string select = "SELECT * FROM sql7313340.Accounts";
+            conn.Open();
+            MySqlCommand command = new MySqlCommand(select, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader.GetString(1) == loginTextBox.Text)
+                {
+                    if (reader.GetString(2) == passwordTextBox.Text)
+                    {
+                        if (choice == "Administrator" && reader.GetString(3) == "Administrator")
+                            adminControlPanel.Show();
+                        else if (choice == "Doctor" && reader.GetString(3) == "Doctor")
+                            doctorControlPanel.Show();
+                        else if (choice == "Receptionist" && reader.GetString(3) == "Receptionist")
+                            receptionistControlPanel.Show();
+                        else
+                            errorLabel.Show();
+                    }
+                    else
+                    {
+                        errorLabel.Text = "Złe hasło";
+                        errorLabel.Show();
+                    }
+                }
+                else
+                {
+                    errorLabel.Text = "Nie ma takiego użytkownika!";
+                    errorLabel.Show();
+                }
+            }
+            reader.Close();
+            conn.Close();
         }
     }
 }
