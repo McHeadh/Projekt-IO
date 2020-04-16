@@ -24,6 +24,10 @@ namespace Admin_przychodni
 
         private void HideTextBoxes()
         {
+            setLoginLabel.Hide();
+            setLoginTextBox.Hide();
+            setPasswordLabel.Hide();
+            setPasswordTextBox.Hide();
             firstNameLabel.Hide();
             firstNameTextBox.Hide();
             secondNameLabel.Hide();
@@ -79,9 +83,18 @@ namespace Admin_przychodni
             backButton.Show();
         }
 
+        private void ShowSetLabels()
+        {
+            setLoginLabel.Show();
+            setLoginTextBox.Show();
+            setPasswordLabel.Show();
+            setPasswordTextBox.Show();
+        }
+
         private void addDoctor_Click(object sender, EventArgs e)
         {
             DoctorActrions();
+            ShowSetLabels();
             addButton.Show();
         }
 
@@ -94,6 +107,7 @@ namespace Admin_przychodni
         private void addReceptionist_Click(object sender, EventArgs e)
         {
             ReceptionistActrions();
+            ShowSetLabels();
             addButton.Show();
         }
 

@@ -120,9 +120,9 @@ namespace Admin_przychodni
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                if (reader.GetString(1) == loginTextBox.Text)
+                if (reader.GetString(1) == loginTextBox.Text) // is login correct
                 {
-                    if (reader.GetString(2) == passwordTextBox.Text)
+                    if (reader.GetString(2) == passwordTextBox.Text) // is password correct
                     {
                         if (choice == "Administrator" && reader.GetString(3) == "Administrator")
                             adminControlPanel.Show();
@@ -135,9 +135,10 @@ namespace Admin_przychodni
                     }
                     else
                     {
-                        errorLabel.Text = "Złe hasło";
+                        errorLabel.Text = "Złe hasło!";
                         errorLabel.Show();
                     }
+                    break;
                 }
                 else
                 {
