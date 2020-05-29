@@ -44,6 +44,8 @@
             this.setPasswordLabel = new System.Windows.Forms.Label();
             this.setLoginTextBox = new System.Windows.Forms.TextBox();
             this.setLoginLabel = new System.Windows.Forms.Label();
+            this.specLabel = new System.Windows.Forms.Label();
+            this.specTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // logoutButton
@@ -60,7 +62,7 @@
             // addDoctor
             // 
             this.addDoctor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addDoctor.Location = new System.Drawing.Point(181, 98);
+            this.addDoctor.Location = new System.Drawing.Point(181, 99);
             this.addDoctor.Name = "addDoctor";
             this.addDoctor.Size = new System.Drawing.Size(150, 47);
             this.addDoctor.TabIndex = 1;
@@ -71,7 +73,7 @@
             // deleteDoctor
             // 
             this.deleteDoctor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteDoctor.Location = new System.Drawing.Point(181, 151);
+            this.deleteDoctor.Location = new System.Drawing.Point(181, 152);
             this.deleteDoctor.Name = "deleteDoctor";
             this.deleteDoctor.Size = new System.Drawing.Size(150, 47);
             this.deleteDoctor.TabIndex = 2;
@@ -136,17 +138,18 @@
             // addButton
             // 
             this.addButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addButton.Location = new System.Drawing.Point(261, 257);
+            this.addButton.Location = new System.Drawing.Point(258, 297);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(70, 47);
             this.addButton.TabIndex = 9;
             this.addButton.Text = "Zarejestruj";
             this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // deleteButton
             // 
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteButton.Location = new System.Drawing.Point(181, 257);
+            this.deleteButton.Location = new System.Drawing.Point(182, 297);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(70, 47);
             this.deleteButton.TabIndex = 10;
@@ -196,6 +199,22 @@
             this.setLoginLabel.TabIndex = 15;
             this.setLoginLabel.Text = "Login:";
             // 
+            // specLabel
+            // 
+            this.specLabel.AutoSize = true;
+            this.specLabel.Location = new System.Drawing.Point(180, 254);
+            this.specLabel.Name = "specLabel";
+            this.specLabel.Size = new System.Drawing.Size(72, 13);
+            this.specLabel.TabIndex = 16;
+            this.specLabel.Text = "Specjalizacja:";
+            // 
+            // specTextBox
+            // 
+            this.specTextBox.Location = new System.Drawing.Point(181, 271);
+            this.specTextBox.Name = "specTextBox";
+            this.specTextBox.Size = new System.Drawing.Size(149, 20);
+            this.specTextBox.TabIndex = 17;
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,6 +235,8 @@
             this.Controls.Add(this.setPasswordLabel);
             this.Controls.Add(this.setLoginTextBox);
             this.Controls.Add(this.setLoginLabel);
+            this.Controls.Add(this.specLabel);
+            this.Controls.Add(this.specTextBox);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Name = "AdminControl";
             this.Size = new System.Drawing.Size(556, 381);
@@ -242,5 +263,7 @@
         private System.Windows.Forms.Label setPasswordLabel;
         private System.Windows.Forms.TextBox setLoginTextBox;
         private System.Windows.Forms.Label setLoginLabel;
+        private System.Windows.Forms.Label specLabel;
+        private System.Windows.Forms.TextBox specTextBox;
     }
 }
