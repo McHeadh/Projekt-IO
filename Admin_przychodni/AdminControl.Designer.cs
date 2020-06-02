@@ -46,6 +46,7 @@
             this.setLoginLabel = new System.Windows.Forms.Label();
             this.specLabel = new System.Windows.Forms.Label();
             this.specTextBox = new System.Windows.Forms.TextBox();
+            this.msgLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // logoutButton
@@ -215,10 +216,22 @@
             this.specTextBox.Size = new System.Drawing.Size(149, 20);
             this.specTextBox.TabIndex = 17;
             // 
+            // msgLabel
+            // 
+            this.msgLabel.AutoSize = true;
+            this.msgLabel.BackColor = System.Drawing.Color.Red;
+            this.msgLabel.ForeColor = System.Drawing.Color.White;
+            this.msgLabel.Location = new System.Drawing.Point(184, 83);
+            this.msgLabel.Name = "msgLabel";
+            this.msgLabel.Size = new System.Drawing.Size(35, 13);
+            this.msgLabel.TabIndex = 18;
+            this.msgLabel.Text = "label1";
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.msgLabel);
             this.Controls.Add(this.deleteReceptionist);
             this.Controls.Add(this.addReceptionist);
             this.Controls.Add(this.deleteDoctor);
@@ -265,5 +278,6 @@
         private System.Windows.Forms.Label setLoginLabel;
         private System.Windows.Forms.Label specLabel;
         private System.Windows.Forms.TextBox specTextBox;
+        private System.Windows.Forms.Label msgLabel;
     }
 }

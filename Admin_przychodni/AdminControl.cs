@@ -18,46 +18,145 @@ namespace Admin_przychodni
             InitializeComponent();
             backButton.Hide();
             HideTextBoxes();
+            msgLabel.Hide();
         }
 
         MySqlConnection conn = new MySqlConnection("datasource=sql7.freemysqlhosting.net;port=3306;username=sql7313340;password=EMvDjki61A");
         MySqlCommand command;
         MySqlDataReader reader;
+
         private bool isDoctor = false;
         private bool isReceptionist = false;
-        private string fname;  // first name
-        private string sname; // second name
-        private string spec; // specialization
-        private string login;
-        private string password;
-        private string function;
-        private int accountId;
+        private string fname = "";  // first name
+        private string sname = ""; // second name
+        private string spec = ""; // doctor specialization
+        private string login = "";
+        private string password = "";
+        private string function = "";
+        private int accountId = 0;
 
         private void AddDoctor()
         {
-            fname = firstNameTextBox.Text;
-            sname = secondNameTextBox.Text;
-            login = setLoginTextBox.Text;
-            password = setPasswordTextBox.Text;
+            PeekText();
             spec = specTextBox.Text;
             function = "Doctor";
             
-            string insert2 = "INSERT INTO sql7313340.Accounts (Nick, Password, Function) VALUES('" + login + "','" + password + "','" + function + "')";
-            string select = "SELECT Id FROM (sql7313340.Accounts) WHERE Nick='" + login + "'";
+            if (fname != "" && sname != "" && spec != "" && login != "" && password != "")
+            {
+                msgLabel.Hide();
+                if (!FindLogin(login))
+                {
+                    conn.Open();
+                    InsertAccount();
+                    string insertDoctor = "INSERT INTO sql7313340.Doctors (FirstName, SecondName, Specialization, Id_account) VALUES('" + fname + "','" + sname + "','" + spec + "','" + accountId + "')";
+                    command = new MySqlCommand(insertDoctor, conn);
+                    command.ExecuteNonQuery();
+                    conn.Close();
+                    Succeeded();
+                    specTextBox.Clear();
+                }
+                else
+                {
+                    ErrorLogin();
+                }
+            }
+            else
+            {
+                ErrorEmptyTxt();
+            }
+        }
+
+        private void AddReceptionist()
+        {
+            PeekText();
+            function = "Receptionist";
             
-            conn.Open();
-            command = new MySqlCommand(insert2, conn);
+            if (fname != "" && sname != "" && login != "" && password != "")
+            {
+                msgLabel.Hide();
+                if (!FindLogin(login))
+                {
+                    conn.Open();
+                    InsertAccount();
+                    string insertReceptionist = "INSERT INTO sql7313340.Receptionists (FirstName, SecondName, Id_account) VALUES('" + fname + "','" + sname + "','" + accountId + "')";
+                    command = new MySqlCommand(insertReceptionist, conn);
+                    command.ExecuteNonQuery();
+                    conn.Close();
+                    Succeeded();
+                }
+                else
+                {
+                    ErrorLogin();
+                }
+            }
+            else
+            {
+                ErrorEmptyTxt();
+            }
+        }
+
+        private void Succeeded()
+        {
+            ClearText();
+            msgLabel.BackColor = Color.Green;
+            msgLabel.Text = "Użytkownik został dodany!";
+            msgLabel.Show();
+            accountId = 0;
+        }
+
+        private void ErrorEmptyTxt()
+        {
+            msgLabel.BackColor = Color.Red;
+            msgLabel.Text = "Wszystkie pola muszą być wypełnione!";
+            msgLabel.Show();
+        }
+
+        private void ErrorLogin()
+        {
+            msgLabel.BackColor = Color.Red;
+            msgLabel.Text = "Taki login już istnieje!";
+            msgLabel.Show();
+            setLoginTextBox.Clear();
+        }
+
+        private void InsertAccount() // insert new account into accounts and peek account id
+        {
+            string insertAccount = "INSERT INTO sql7313340.Accounts (Login, Password, Function) VALUES('" + login + "','" + password + "','" + function + "')";
+            string select = "SELECT Id FROM (sql7313340.Accounts) WHERE Login='" + login + "'";
+            command = new MySqlCommand(insertAccount, conn);
             command.ExecuteNonQuery();
             command = new MySqlCommand(select, conn);
             reader = command.ExecuteReader();
             reader.Read();
             accountId = reader.GetInt32(0);
             reader.Close();
-            string insert1 = "INSERT INTO sql7313340.Doctors (FirstName, SecondName, Specialization, Id_account) VALUES('" + fname + "','" + sname + "','" + spec + "','" + accountId + "')";
-            command = new MySqlCommand(insert1, conn);
-            command.ExecuteNonQuery();
+        }
+
+        private void PeekText()
+        {
+            fname = firstNameTextBox.Text;
+            sname = secondNameTextBox.Text;
+            login = setLoginTextBox.Text;
+            password = setPasswordTextBox.Text;
+        }
+
+        private bool FindLogin(string login)
+        {
+            string select = "SELECT Id FROM (sql7313340.Accounts) WHERE Login='" + login + "'";
+            conn.Open();
+            command = new MySqlCommand(select, conn);
+            reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                accountId = reader.GetInt32(0);
+            }
+            reader.Close();
             conn.Close();
-            ClearText();
+            if (accountId != 0)
+                return true;
+            else
+                return false;
         }
 
         private void ClearText()
@@ -66,7 +165,6 @@ namespace Admin_przychodni
             setPasswordTextBox.Clear();
             firstNameTextBox.Clear();
             secondNameTextBox.Clear();
-            specTextBox.Clear();
         }
 
         private void HideTextBoxes()
@@ -94,7 +192,7 @@ namespace Admin_przychodni
             secondNameTextBox.Show();
         }
 
-        private void DoctorActrions()
+        private void DoctorActions()
         {
             isDoctor = true;
             Switch();
@@ -102,7 +200,7 @@ namespace Admin_przychodni
             specTextBox.Show();
         }
 
-        private void ReceptionistActrions()
+        private void ReceptionistActions()
         {
             isReceptionist = true;
             Switch();
@@ -144,27 +242,27 @@ namespace Admin_przychodni
 
         private void addDoctor_Click(object sender, EventArgs e)
         {
-            DoctorActrions();
+            DoctorActions();
             ShowSetLabels();
             addButton.Show();
         }
 
         private void deleteDoctor_Click(object sender, EventArgs e)
         {
-            DoctorActrions();
+            DoctorActions();
             deleteButton.Show();
         }
 
         private void addReceptionist_Click(object sender, EventArgs e)
         {
-            ReceptionistActrions();
+            ReceptionistActions();
             ShowSetLabels();
             addButton.Show();
         }
 
         private void deleteReceptionist_Click(object sender, EventArgs e)
         {
-            ReceptionistActrions();
+            ReceptionistActions();
             deleteButton.Show();
         }
 
@@ -172,6 +270,8 @@ namespace Admin_przychodni
         {
             HideTextBoxes();
             ShowButtons();
+            msgLabel.Hide();
+            ClearText();
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
@@ -181,7 +281,10 @@ namespace Admin_przychodni
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            AddDoctor();
+            if (isDoctor)
+                AddDoctor();
+            if (isReceptionist)
+                AddReceptionist();
         }
     }
 }
