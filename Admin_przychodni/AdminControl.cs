@@ -95,11 +95,32 @@ namespace Admin_przychodni
             }
         }
 
+        private void DeleteUser()
+        {
+            login = setLoginTextBox.Text;
+            FindLogin(login);
+            string selectFunction = "SELECT Function FROM (sql7313340.Accounts) WHERE Login='" + login + "'";
+            conn.Open();
+            command = new MySqlCommand(selectFunction, conn);
+            reader = command.ExecuteReader();
+            reader.Read();
+            function = reader.GetString(0);
+            reader.Close();
+            string delete = "DELETE FROM sql7313340." + function + "s WHERE Id_account='" + accountId + "'"; // delete from doctors or receptionists
+            command = new MySqlCommand(delete, conn);
+            command.ExecuteNonQuery();
+            string deleteAccount = "DELETE FROM sql7313340.Accounts WHERE Id='" + accountId + "'"; // delete from accounts
+            command = new MySqlCommand(deleteAccount, conn);
+            command.ExecuteNonQuery();
+            conn.Close();
+            Succeeded();
+        }
+
         private void Succeeded()
         {
             ClearText();
             msgLabel.BackColor = Color.Green;
-            msgLabel.Text = "Użytkownik został dodany!";
+            msgLabel.Text = "Operacja zakończona sukcesem!";
             msgLabel.Show();
             accountId = 0;
         }
@@ -215,9 +236,9 @@ namespace Admin_przychodni
         private void HideButtons()
         {
             addDoctor.Hide();
-            deleteDoctor.Hide();
+            addOfficeHrsButton.Hide();
             addReceptionist.Hide();
-            deleteReceptionist.Hide();
+            deleteAccountButton.Hide();
             logoutButton.Hide();
             backButton.Show();
         }
@@ -225,9 +246,9 @@ namespace Admin_przychodni
         private void ShowButtons()
         {
             addDoctor.Show();
-            deleteDoctor.Show();
+            addOfficeHrsButton.Show();
             addReceptionist.Show();
-            deleteReceptionist.Show();
+            deleteAccountButton.Show();
             logoutButton.Show();
             backButton.Show();
         }
@@ -247,10 +268,9 @@ namespace Admin_przychodni
             addButton.Show();
         }
 
-        private void deleteDoctor_Click(object sender, EventArgs e)
+        private void addOfficeHrsButton_Click(object sender, EventArgs e)
         {
-            DoctorActions();
-            deleteButton.Show();
+
         }
 
         private void addReceptionist_Click(object sender, EventArgs e)
@@ -260,9 +280,11 @@ namespace Admin_przychodni
             addButton.Show();
         }
 
-        private void deleteReceptionist_Click(object sender, EventArgs e)
+        private void deleteAccountButton_Click(object sender, EventArgs e)
         {
-            ReceptionistActions();
+            HideButtons();
+            setLoginLabel.Show();
+            setLoginTextBox.Show();
             deleteButton.Show();
         }
 
@@ -285,6 +307,11 @@ namespace Admin_przychodni
                 AddDoctor();
             if (isReceptionist)
                 AddReceptionist();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DeleteUser();
         }
     }
 }

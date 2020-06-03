@@ -30,9 +30,9 @@
         {
             this.logoutButton = new System.Windows.Forms.Button();
             this.addDoctor = new System.Windows.Forms.Button();
-            this.deleteDoctor = new System.Windows.Forms.Button();
+            this.addOfficeHrsButton = new System.Windows.Forms.Button();
             this.addReceptionist = new System.Windows.Forms.Button();
-            this.deleteReceptionist = new System.Windows.Forms.Button();
+            this.deleteAccountButton = new System.Windows.Forms.Button();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.firstNameLabel = new System.Windows.Forms.Label();
             this.secondNameLabel = new System.Windows.Forms.Label();
@@ -71,21 +71,21 @@
             this.addDoctor.UseVisualStyleBackColor = true;
             this.addDoctor.Click += new System.EventHandler(this.addDoctor_Click);
             // 
-            // deleteDoctor
+            // addOfficeHrsButton
             // 
-            this.deleteDoctor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteDoctor.Location = new System.Drawing.Point(181, 152);
-            this.deleteDoctor.Name = "deleteDoctor";
-            this.deleteDoctor.Size = new System.Drawing.Size(150, 47);
-            this.deleteDoctor.TabIndex = 2;
-            this.deleteDoctor.Text = "Usuń lekarza";
-            this.deleteDoctor.UseVisualStyleBackColor = true;
-            this.deleteDoctor.Click += new System.EventHandler(this.deleteDoctor_Click);
+            this.addOfficeHrsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addOfficeHrsButton.Location = new System.Drawing.Point(181, 152);
+            this.addOfficeHrsButton.Name = "addOfficeHrsButton";
+            this.addOfficeHrsButton.Size = new System.Drawing.Size(150, 47);
+            this.addOfficeHrsButton.TabIndex = 2;
+            this.addOfficeHrsButton.Text = "Dodaj dyżur";
+            this.addOfficeHrsButton.UseVisualStyleBackColor = true;
+            this.addOfficeHrsButton.Click += new System.EventHandler(this.addOfficeHrsButton_Click);
             // 
             // addReceptionist
             // 
             this.addReceptionist.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addReceptionist.Location = new System.Drawing.Point(181, 204);
+            this.addReceptionist.Location = new System.Drawing.Point(181, 205);
             this.addReceptionist.Name = "addReceptionist";
             this.addReceptionist.Size = new System.Drawing.Size(150, 47);
             this.addReceptionist.TabIndex = 3;
@@ -93,16 +93,16 @@
             this.addReceptionist.UseVisualStyleBackColor = true;
             this.addReceptionist.Click += new System.EventHandler(this.addReceptionist_Click);
             // 
-            // deleteReceptionist
+            // deleteAccountButton
             // 
-            this.deleteReceptionist.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteReceptionist.Location = new System.Drawing.Point(181, 257);
-            this.deleteReceptionist.Name = "deleteReceptionist";
-            this.deleteReceptionist.Size = new System.Drawing.Size(150, 47);
-            this.deleteReceptionist.TabIndex = 4;
-            this.deleteReceptionist.Text = "Usuń recepcjonistę";
-            this.deleteReceptionist.UseVisualStyleBackColor = true;
-            this.deleteReceptionist.Click += new System.EventHandler(this.deleteReceptionist_Click);
+            this.deleteAccountButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deleteAccountButton.Location = new System.Drawing.Point(180, 258);
+            this.deleteAccountButton.Name = "deleteAccountButton";
+            this.deleteAccountButton.Size = new System.Drawing.Size(150, 47);
+            this.deleteAccountButton.TabIndex = 4;
+            this.deleteAccountButton.Text = "Usuń użytkownika";
+            this.deleteAccountButton.UseVisualStyleBackColor = true;
+            this.deleteAccountButton.Click += new System.EventHandler(this.deleteAccountButton_Click);
             // 
             // firstNameTextBox
             // 
@@ -139,7 +139,7 @@
             // addButton
             // 
             this.addButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addButton.Location = new System.Drawing.Point(258, 297);
+            this.addButton.Location = new System.Drawing.Point(337, 237);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(70, 47);
             this.addButton.TabIndex = 9;
@@ -150,12 +150,13 @@
             // deleteButton
             // 
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteButton.Location = new System.Drawing.Point(182, 297);
+            this.deleteButton.Location = new System.Drawing.Point(337, 121);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(70, 47);
             this.deleteButton.TabIndex = 10;
             this.deleteButton.Text = "Usuń";
             this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // backButton
             // 
@@ -232,9 +233,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.msgLabel);
-            this.Controls.Add(this.deleteReceptionist);
+            this.Controls.Add(this.deleteAccountButton);
             this.Controls.Add(this.addReceptionist);
-            this.Controls.Add(this.deleteDoctor);
+            this.Controls.Add(this.addOfficeHrsButton);
             this.Controls.Add(this.addDoctor);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.addButton);
@@ -262,9 +263,9 @@
 
         private System.Windows.Forms.Button logoutButton;
         private System.Windows.Forms.Button addDoctor;
-        private System.Windows.Forms.Button deleteDoctor;
+        private System.Windows.Forms.Button addOfficeHrsButton;
         private System.Windows.Forms.Button addReceptionist;
-        private System.Windows.Forms.Button deleteReceptionist;
+        private System.Windows.Forms.Button deleteAccountButton;
         private System.Windows.Forms.TextBox firstNameTextBox;
         private System.Windows.Forms.Label firstNameLabel;
         private System.Windows.Forms.Label secondNameLabel;
