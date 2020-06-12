@@ -33,6 +33,7 @@
             // 
             // logoutButton
             // 
+            this.logoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.logoutButton.Location = new System.Drawing.Point(3, 3);
             this.logoutButton.Name = "logoutButton";
             this.logoutButton.Size = new System.Drawing.Size(85, 25);
