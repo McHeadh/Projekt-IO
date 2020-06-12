@@ -48,7 +48,7 @@ namespace Admin_przychodni
                 {
                     conn.Open();
                     InsertAccount();
-                    string insertDoctor = "INSERT INTO sql7313340.Doctors (FirstName, SecondName, Specialization, Id_account) VALUES('" + fname + "','" + sname + "','" + spec + "','" + accountId + "')";
+                    string insertDoctor = "INSERT INTO sql7313340.Doctors (FirstName, SecondName, Specialization, Id_account) " + "VALUES('" + fname + "','" + sname + "','" + spec + "','" + accountId + "')";
                     command = new MySqlCommand(insertDoctor, conn);
                     command.ExecuteNonQuery();
                     conn.Close();
