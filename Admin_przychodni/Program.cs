@@ -16,6 +16,7 @@ namespace Admin_przychodni
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new Form1());
         }
     }

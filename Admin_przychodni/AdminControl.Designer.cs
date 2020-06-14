@@ -47,6 +47,7 @@
             this.specLabel = new System.Windows.Forms.Label();
             this.specTextBox = new System.Windows.Forms.TextBox();
             this.msgLabel = new System.Windows.Forms.Label();
+            this.officeHrsControl1 = new Admin_przychodni.OfficeHrsControl();
             this.SuspendLayout();
             // 
             // logoutButton
@@ -184,6 +185,7 @@
             this.setPasswordLabel.Size = new System.Drawing.Size(39, 13);
             this.setPasswordLabel.TabIndex = 13;
             this.setPasswordLabel.Text = "Hasło:";
+            this.setPasswordLabel.Click += new System.EventHandler(this.setPasswordLabel_Click);
             // 
             // setLoginTextBox
             // 
@@ -228,10 +230,18 @@
             this.msgLabel.TabIndex = 18;
             this.msgLabel.Text = "label1";
             // 
+            // officeHrsControl1
+            // 
+            this.officeHrsControl1.Location = new System.Drawing.Point(-64, 0);
+            this.officeHrsControl1.Name = "officeHrsControl1";
+            this.officeHrsControl1.Size = new System.Drawing.Size(685, 431);
+            this.officeHrsControl1.TabIndex = 19;
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.officeHrsControl1);
             this.Controls.Add(this.msgLabel);
             this.Controls.Add(this.deleteAccountButton);
             this.Controls.Add(this.addReceptionist);
@@ -280,5 +290,6 @@
         private System.Windows.Forms.Label specLabel;
         private System.Windows.Forms.TextBox specTextBox;
         private System.Windows.Forms.Label msgLabel;
+        private OfficeHrsControl officeHrsControl1;
     }
 }
