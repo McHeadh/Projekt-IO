@@ -232,15 +232,16 @@
             // 
             // officeHrsControl1
             // 
-            this.officeHrsControl1.Location = new System.Drawing.Point(-64, 0);
+            this.officeHrsControl1.Location = new System.Drawing.Point(0, 0);
             this.officeHrsControl1.Name = "officeHrsControl1";
-            this.officeHrsControl1.Size = new System.Drawing.Size(685, 431);
+            this.officeHrsControl1.Size = new System.Drawing.Size(556, 381);
             this.officeHrsControl1.TabIndex = 19;
             // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.officeHrsControl1);
             this.Controls.Add(this.msgLabel);
             this.Controls.Add(this.deleteAccountButton);
@@ -254,7 +255,6 @@
             this.Controls.Add(this.firstNameLabel);
             this.Controls.Add(this.firstNameTextBox);
             this.Controls.Add(this.logoutButton);
-            this.Controls.Add(this.backButton);
             this.Controls.Add(this.setPasswordTextBox);
             this.Controls.Add(this.setPasswordLabel);
             this.Controls.Add(this.setLoginTextBox);

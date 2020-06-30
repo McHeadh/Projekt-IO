@@ -23,9 +23,10 @@ namespace Admin_przychodni
         }
 
         MySqlConnection conn = new MySqlConnection("datasource=sql7.freemysqlhosting.net;port=3306;username=sql7313340;password=EMvDjki61A");
-        public bool isAdministrator = false;
-        public bool isDoctor = false;
-        public bool isReceptionist = false;
+        public static bool isAdministrator = false;
+        public static bool isDoctor = false;
+        public static bool isReceptionist = false;
+        public static string login;
 
         private void LabelsHide()
         {
@@ -109,6 +110,9 @@ namespace Admin_przychodni
                 Login("Doctor");
             if (isReceptionist)
                 Login("Receptionist");
+
+            login = loginTextBox.Text;
+
             ClearTextBox();
         }
 

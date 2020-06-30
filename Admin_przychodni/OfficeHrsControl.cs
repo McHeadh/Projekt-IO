@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace Admin_przychodni
 {
@@ -20,6 +21,9 @@ namespace Admin_przychodni
         private string end;
         private string doctor;
         private string date;
+        private string name;
+        private string surname;
+        private string specialisation;
 
         private int doctorId;
         private int accountId;
@@ -32,8 +36,16 @@ namespace Admin_przychodni
         {
             InitializeComponent();
             label1.Hide();
-            datePicker.Format = DateTimePickerFormat.Custom;
-            datePicker.CustomFormat = "dd/MM/yyyy";
+            //datePicker.Format = DateTimePickerFormat.Custom;
+            //datePicker.CustomFormat = "dd/MM/yyyy";
+
+            timePickerBegin.Format = DateTimePickerFormat.Custom;
+            timePickerBegin.CustomFormat = "HH:mm";
+            timePickerBegin.ShowUpDown = true;
+
+            timePickerEnd.Format = DateTimePickerFormat.Custom;
+            timePickerEnd.CustomFormat = "HH:mm";
+            timePickerEnd.ShowUpDown = true;
         }
 
         private void OfficeHrsControl_Load(object sender, EventArgs e)
@@ -46,16 +58,11 @@ namespace Admin_przychodni
             AddOfficeHours();
         }
 
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-        }
-
         private void AddOfficeHours()
         {
             office = officeTextBox.Text;
-            begin = beginTextBox.Text;
-            end = endTextBox.Text;
+            begin = timePickerBegin.Value.TimeOfDay.ToString();
+            end = timePickerEnd.Value.TimeOfDay.ToString();
             doctor = doctorTextBox.Text;
 
             date = datePicker.Value.Year.ToString() + "-" + datePicker.Value.Month.ToString() + "-" + datePicker.Value.Day.ToString();
@@ -73,13 +80,12 @@ namespace Admin_przychodni
             }
             reader.Close();
 
-            label1.Text = doctorId.ToString(); // checking manually if we found proper IdDoctor
+            label1.Text = begin; // checking manually if we found proper IdDoctor
             label1.Show();
 
-            //string insertOfficeHrs = "INSERT INTO sql7313340.Offices (Office, Date, Begin, End, Id_doctor) VALUES('" + office + "',('DATE: Manual Date','" + date + "'),'" + begin + "','" + end + "','" + doctorId + "')";
-            //string insertOfficeHrs = "INSERT INTO sql7313340.Offices (Office, Date, Begin, End, Id_doctor) VALUES ('" + office + "',('DATE: Manual Date','" + date + "'),'16:00:00','18:00:00','" + doctorId + "')";
-            //command = new MySqlCommand(insertOfficeHrs, conn);
-            //command.ExecuteNonQuery();
+            string insertOfficeHrs = "INSERT INTO sql7313340.Offices (Office, Date, Begin, End, Id_doctor) VALUES ('" + office + "','" + date + "','" + begin + "','" + end + "','" + doctorId + "')";
+            command = new MySqlCommand(insertOfficeHrs, conn);
+            command.ExecuteNonQuery();
             conn.Close();
         }
 
@@ -107,6 +113,90 @@ namespace Admin_przychodni
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void filterButton_Click(object sender, EventArgs e)
+        {
+            office = officeTextBox.Text;
+            begin = timePickerBegin.Value.TimeOfDay.Hours.ToString() + ":" + timePickerBegin.Value.TimeOfDay.Minutes.ToString() + ":00";
+            end = timePickerEnd.Value.TimeOfDay.Hours.ToString() + ":" + timePickerEnd.Value.TimeOfDay.Minutes.ToString() + ":00";
+            doctor = doctorTextBox.Text;
+            date = datePicker.Value.Year.ToString() + "/" + datePicker.Value.Month.ToString() + "/" + datePicker.Value.Day.ToString();
+
+
+            richTextBox1.Clear();
+
+            if (Form1.isDoctor)
+                doctor = Form1.login;
+
+            FindLogin(doctor);
+            conn.Open();
+            string select = findWithFilters(); //"SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE a.Login='" + doctor + "'";
+            command = new MySqlCommand(select, conn);
+            reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while(reader.Read())
+                {
+                    richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + "\n");
+                }
+                //doctorId = reader.GetInt32(0);
+            }
+            reader.Close();
+            conn.Close();
+
+            label2.Text = begin + " " + end;
+
+        }
+
+        private string findWithFilters()
+        {
+            string select;
+
+            if (office.Length != 0)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Office='" + office + "'";
+            else if (doctor.Length != 0)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE a.Login='" + doctor + "'";
+            else if (begin != end)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Begin>='" + begin + "' AND o.End<='" + end + "'";
+            //else if (datePicker.CustomFormat == "dd/MM/yyyy")
+            //    select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Date='" + date + "'";
+            else
+                select = " ";
+
+            if(select!=" ")
+            {
+                if (office.Length != 0)
+                    select += " AND o.Office='" + office + "'";
+                if (doctor.Length != 0)
+                    select += " AND a.Login='" + doctor + "'";
+                if (begin != end)
+                    select += "AND o.Begin >= '" + begin + "' AND o.End <= '" + end + "'";
+               //if (datePicker.CustomFormat == "dd/MM/yyyy")
+               //    select = " ";
+            }
+            
+            return select;
+        }
+
+        private void datePicker_ValueChanged(object sender, EventArgs e)
+        {
+            datePicker.Format = DateTimePickerFormat.Custom;
+            datePicker.CustomFormat = "dd/MM/yyyy";
+        }
+
+        private void timePickerBegin_ValueChanged(object sender, EventArgs e)
+        {
+            timePickerBegin.Format = DateTimePickerFormat.Custom;
+            timePickerBegin.CustomFormat = "HH:mm";
+            timePickerBegin.ShowUpDown = true;
+        }
+
+        private void timePickerEnd_ValueChanged(object sender, EventArgs e)
+        {
+            timePickerEnd.Format = DateTimePickerFormat.Custom;
+            timePickerEnd.CustomFormat = "HH:mm";
+            timePickerEnd.ShowUpDown = true;
         }
     }
 }

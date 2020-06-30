@@ -19,6 +19,8 @@ namespace Admin_przychodni
             backButton.Hide();
             HideTextBoxes();
             msgLabel.Hide();
+
+            officeHrsControl1.Hide();
         }
 
         MySqlConnection conn = new MySqlConnection("datasource=sql7.freemysqlhosting.net;port=3306;username=sql7313340;password=EMvDjki61A");
@@ -270,7 +272,8 @@ namespace Admin_przychodni
 
         private void addOfficeHrsButton_Click(object sender, EventArgs e)
         {
-            
+            HideButtons();
+            officeHrsControl1.Show(); // needs a rework because back button is inside officeHrsControl1
         }
 
         private void addReceptionist_Click(object sender, EventArgs e)
@@ -294,11 +297,14 @@ namespace Admin_przychodni
             ShowButtons();
             msgLabel.Hide();
             ClearText();
+            officeHrsControl1.Hide();
+            backButton.Hide();
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
+            Form1.isAdministrator = false;
         }
 
         private void addButton_Click(object sender, EventArgs e)
