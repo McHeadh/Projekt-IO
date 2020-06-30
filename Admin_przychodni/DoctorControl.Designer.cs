@@ -50,6 +50,7 @@
             this.officeHrsControl1.Name = "officeHrsControl1";
             this.officeHrsControl1.Size = new System.Drawing.Size(624, 380);
             this.officeHrsControl1.TabIndex = 1;
+            this.officeHrsControl1.Load += new System.EventHandler(this.officeHrsControl1_Load);
             // 
             // DoctorControl
             // 

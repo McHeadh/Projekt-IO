@@ -273,7 +273,7 @@ namespace Admin_przychodni
         private void addOfficeHrsButton_Click(object sender, EventArgs e)
         {
             HideButtons();
-            officeHrsControl1.Show(); // needs a rework because back button is inside officeHrsControl1
+            officeHrsControl1.Show();
             officeHrsControl1.showSetButton();
         }
 
@@ -300,12 +300,12 @@ namespace Admin_przychodni
             ClearText();
             officeHrsControl1.Hide();
             backButton.Hide();
+            officeHrsControl1.clearResults();
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            //Form1.isAdministrator = false;
         }
 
         private void addButton_Click(object sender, EventArgs e)

@@ -22,6 +22,17 @@ namespace Admin_przychodni
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
+            officeHrsControl1.clearResults();
+        }
+
+        public void Inicialization()
+        {
+            officeHrsControl1.showAllDoctorData();
+        }
+
+        private void officeHrsControl1_Load(object sender, EventArgs e)
+        {
+            officeHrsControl1.showAllDoctorData();
         }
     }
 }

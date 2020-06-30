@@ -24,9 +24,7 @@ namespace Admin_przychodni
         private string name;
         private string surname;
         private string specialisation;
-
         private int doctorId;
-        private int accountId;
 
         MySqlConnection conn = new MySqlConnection("datasource=sql7.freemysqlhosting.net;port=3306;username=sql7313340;password=EMvDjki61A");
         MySqlCommand command;
@@ -35,9 +33,6 @@ namespace Admin_przychodni
         public OfficeHrsControl()
         {
             InitializeComponent();
-            label1.Hide();
-            //datePicker.Format = DateTimePickerFormat.Custom;
-            //datePicker.CustomFormat = "dd/MM/yyyy";
 
             timePickerBegin.Format = DateTimePickerFormat.Custom;
             timePickerBegin.CustomFormat = "HH:mm";
@@ -57,20 +52,73 @@ namespace Admin_przychodni
 
         private void setButton_Click(object sender, EventArgs e)
         {
-            AddOfficeHours();
+            errorMessage.Hide();
+            if (isOfficeAvaliable() && isDoctorAvaliable())
+            {
+                AddOfficeHours();
+                errorMessage.Show();
+                errorMessage.Text = "Dodano dyzur pomyslnie";
+                errorMessage.BackColor = Color.Green;
+            }
+            else
+            {
+                errorMessage.Show();
+                errorMessage.BackColor = Color.Red;
+                errorMessage.Text = "Blad";
+                conn.Close();
+            }
+        }
+
+        private bool isOfficeAvaliable()
+        {
+            getTextBoxes();
+
+            conn.Open(); 
+            string select = "SELECT Begin, End FROM sql7313340.Offices WHERE Office='" + office + "' AND (('" + begin + "' BETWEEN Begin AND End) OR ('" + end + "' BETWEEN Begin AND End)) AND DATE(Date)='" + date + "'";
+            command = new MySqlCommand(select, conn);
+            reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Close();
+                conn.Close();
+                return false;
+            }
+            else
+            {
+                reader.Close();
+                conn.Close();
+                return true;
+            }
+        }
+
+        private bool isDoctorAvaliable()
+        {
+            getTextBoxes();
+
+            conn.Open();
+            string select = "SELECT Begin, End FROM(sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE a.Login='" + doctor + "' AND (('" + begin + "' BETWEEN o.Begin AND o.End) OR ('" + end + "' BETWEEN o.Begin AND o.End)) AND DATE(o.Date)='" + date + "'";
+            command = new MySqlCommand(select, conn);
+            reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Close();
+                conn.Close();
+                return false;
+            }
+            else
+            {
+                reader.Close();
+                conn.Close();
+                return true;
+            }
         }
 
         private void AddOfficeHours()
         {
-            office = officeTextBox.Text;
-            begin = timePickerBegin.Value.TimeOfDay.ToString();
-            end = timePickerEnd.Value.TimeOfDay.ToString();
-            doctor = doctorTextBox.Text;
+            getTextBoxes();
 
-            date = datePicker.Value.Year.ToString() + "-" + datePicker.Value.Month.ToString() + "-" + datePicker.Value.Day.ToString();
-
-
-            FindLogin(doctor);
             conn.Open();
             string select = "SELECT d.Id FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account) WHERE a.Login='" + doctor + "'";
             command = new MySqlCommand(select, conn);
@@ -82,48 +130,26 @@ namespace Admin_przychodni
             }
             reader.Close();
 
-            label1.Text = begin; // checking manually if we found proper IdDoctor
-            label1.Show();
-
             string insertOfficeHrs = "INSERT INTO sql7313340.Offices (Office, Date, Begin, End, Id_doctor) VALUES ('" + office + "','" + date + "','" + begin + "','" + end + "','" + doctorId + "')";
             command = new MySqlCommand(insertOfficeHrs, conn);
             command.ExecuteNonQuery();
             conn.Close();
         }
 
-
-
-        private bool FindLogin(string login)
-        {
-            string select = "SELECT Id FROM (sql7313340.Accounts) WHERE Login='" + login + "'";
-            conn.Open();
-            command = new MySqlCommand(select, conn);
-            reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                reader.Read();
-                accountId = reader.GetInt32(0);
-            }
-            reader.Close();
-            conn.Close();
-            if (accountId != 0)
-                return true;
-            else
-                return false;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void filterButton_Click(object sender, EventArgs e)
+        private void getTextBoxes()
         {
             office = officeTextBox.Text;
             begin = timePickerBegin.Value.TimeOfDay.Hours.ToString() + ":" + timePickerBegin.Value.TimeOfDay.Minutes.ToString() + ":00";
             end = timePickerEnd.Value.TimeOfDay.Hours.ToString() + ":" + timePickerEnd.Value.TimeOfDay.Minutes.ToString() + ":00";
             doctor = doctorTextBox.Text;
-            date = datePicker.Value.Year.ToString() + "/" + datePicker.Value.Month.ToString() + "/" + datePicker.Value.Day.ToString();
+            date = datePicker.Value.Year.ToString() + "-" + datePicker.Value.Month.ToString() + "-" + datePicker.Value.Day.ToString();
+        }
+
+        private void filterButton_Click(object sender, EventArgs e)
+        {
+            errorMessage.Hide();
+
+            getTextBoxes();
             specialisation = specialization_TextBox.Text;
             name = fname_textBox.Text;
             surname = sname_textBox.Text;
@@ -133,23 +159,30 @@ namespace Admin_przychodni
             if (Form1.isDoctor)
                 doctor = Form1.login;
 
-            FindLogin(doctor);
             conn.Open();
-            string select = findWithFilters(); //"SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE a.Login='" + doctor + "'";
-            command = new MySqlCommand(select, conn);
-            reader = command.ExecuteReader();
-            if (reader.HasRows)
+            string select = findWithFilters();
+            if (select != " ")
             {
-                while(reader.Read())
+                command = new MySqlCommand(select, conn);
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows)
                 {
-                    richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + ", " + reader.GetString(6) + "\n");
+                    while (reader.Read())
+                    {
+                        richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + ", " + reader.GetString(6) + "\n");
+                    }
                 }
+                reader.Close();
+                conn.Close();
             }
-            reader.Close();
-            conn.Close();
-
-            label2.Text = specialisation;
-
+            else
+            {
+                errorMessage.Show();
+                errorMessage.BackColor = Color.Red;
+                errorMessage.Text = "nie wybrano filtra";
+                conn.Close();
+            }
         }
 
         private string findWithFilters()
@@ -168,8 +201,8 @@ namespace Admin_przychodni
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + name + "'";
             else if (surname.Length != 0)
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + surname + "'";
-            //else if (datePicker.CustomFormat == "dd/MM/yyyy")
-            //    select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Date='" + date + "'";
+            else if (datePicker.CustomFormat == "dd/MM/yyyy")
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE DATE(o.Date)='" + date + "'";
             else
                 select = " ";
 
@@ -187,8 +220,8 @@ namespace Admin_przychodni
                     select += " AND d.FirstName='" + name + "'";
                 if (surname.Length != 0)
                     select += " AND d.SecondName='" + surname + "'";
-                //if (datePicker.CustomFormat == "dd/MM/yyyy")
-                //    select = " ";
+                if (datePicker.CustomFormat == "dd/MM/yyyy")
+                    select += " AND DATE(o.Date)='" + date + "'";
             }
             
             return select;
@@ -217,6 +250,7 @@ namespace Admin_przychodni
         public void showSetButton()
         {
             setButton.Show();
+            infoLabel.Show();
         }
 
         public void hideNonDoctorControlls()
@@ -230,5 +264,48 @@ namespace Admin_przychodni
             doctorLabel.Hide();
             doctorTextBox.Hide();
         }
+
+        public void showAllDoctorData()
+        {
+            richTextBox1.Clear();
+
+            string select;
+
+            select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor)";
+
+
+            if (Form1.isDoctor)
+            {
+                doctor = Form1.login;
+                select += " WHERE a.Login='" + Form1.login + "'";
+            }
+
+            conn.Open();
+            
+            command = new MySqlCommand(select, conn);
+            reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + ", " + reader.GetString(6) + "\n");
+                }
+            }
+
+            reader.Close();
+            conn.Close();
+        }
+
+        public void clearResults()
+        {
+            officeTextBox.Clear();
+            doctorTextBox.Clear();
+            fname_textBox.Clear();
+            sname_textBox.Clear();
+            specialization_TextBox.Clear();
+            richTextBox1.Clear();
+        }
+
     }
 }

@@ -111,13 +111,12 @@ namespace Admin_przychodni
             if (isReceptionist)
                 Login("Receptionist");
 
-            login = loginTextBox.Text;
-
             ClearTextBox();
         }
 
         private void Login(string choice)
         {
+            login = loginTextBox.Text;
             string select = "SELECT * FROM sql7313340.Accounts";
             conn.Open();
             MySqlCommand command = new MySqlCommand(select, conn);
@@ -131,9 +130,15 @@ namespace Admin_przychodni
                         if (choice == "Administrator" && reader.GetString(3) == "Administrator")
                             adminControlPanel.Show();
                         else if (choice == "Doctor" && reader.GetString(3) == "Doctor")
+                        {
                             doctorControlPanel.Show();
+                            doctorControlPanel.Inicialization();
+                        }
                         else if (choice == "Receptionist" && reader.GetString(3) == "Receptionist")
+                        {
                             receptionistControlPanel.Show();
+                            receptionistControlPanel.Inicialization();
+                        }
                         else
                             errorLabel.Show();
                     }
@@ -153,5 +158,11 @@ namespace Admin_przychodni
             reader.Close();
             conn.Close();
         }
+
+        public void errorLabelHide() // quick bugfix
+        {
+            errorLabel.Hide();
+        }
+
     }
 }
