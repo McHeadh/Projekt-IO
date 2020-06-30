@@ -46,6 +46,8 @@ namespace Admin_przychodni
             timePickerEnd.Format = DateTimePickerFormat.Custom;
             timePickerEnd.CustomFormat = "HH:mm";
             timePickerEnd.ShowUpDown = true;
+
+            setButton.Hide();
         }
 
         private void OfficeHrsControl_Load(object sender, EventArgs e)
@@ -122,7 +124,9 @@ namespace Admin_przychodni
             end = timePickerEnd.Value.TimeOfDay.Hours.ToString() + ":" + timePickerEnd.Value.TimeOfDay.Minutes.ToString() + ":00";
             doctor = doctorTextBox.Text;
             date = datePicker.Value.Year.ToString() + "/" + datePicker.Value.Month.ToString() + "/" + datePicker.Value.Day.ToString();
-
+            specialisation = specialization_TextBox.Text;
+            name = fname_textBox.Text;
+            surname = sname_textBox.Text;
 
             richTextBox1.Clear();
 
@@ -138,14 +142,13 @@ namespace Admin_przychodni
             {
                 while(reader.Read())
                 {
-                    richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + "\n");
+                    richTextBox1.AppendText(reader.GetString(0) + ", " + reader.GetString(1) + ", " + reader.GetString(2) + ", " + reader.GetString(3).Split()[0] + ", " + reader.GetString(4).Split(':')[0] + ":" + reader.GetString(4).Split(':')[1] + "-" + reader.GetString(5).Split(':')[0] + ":" + reader.GetString(5).Split(':')[1] + ", " + reader.GetString(6) + "\n");
                 }
-                //doctorId = reader.GetInt32(0);
             }
             reader.Close();
             conn.Close();
 
-            label2.Text = begin + " " + end;
+            label2.Text = specialisation;
 
         }
 
@@ -159,6 +162,12 @@ namespace Admin_przychodni
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE a.Login='" + doctor + "'";
             else if (begin != end)
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Begin>='" + begin + "' AND o.End<='" + end + "'";
+            else if(specialisation.Length != 0)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.Specialization='" + specialisation + "'";
+            else if(name.Length != 0)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + name + "'";
+            else if (surname.Length != 0)
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + surname + "'";
             //else if (datePicker.CustomFormat == "dd/MM/yyyy")
             //    select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE o.Date='" + date + "'";
             else
@@ -172,8 +181,14 @@ namespace Admin_przychodni
                     select += " AND a.Login='" + doctor + "'";
                 if (begin != end)
                     select += "AND o.Begin >= '" + begin + "' AND o.End <= '" + end + "'";
-               //if (datePicker.CustomFormat == "dd/MM/yyyy")
-               //    select = " ";
+                if (specialisation.Length != 0)
+                    select += " AND d.Specialization='" + specialisation + "'";
+                if (name.Length != 0)
+                    select += " AND d.FirstName='" + name + "'";
+                if (surname.Length != 0)
+                    select += " AND d.SecondName='" + surname + "'";
+                //if (datePicker.CustomFormat == "dd/MM/yyyy")
+                //    select = " ";
             }
             
             return select;
@@ -197,6 +212,23 @@ namespace Admin_przychodni
             timePickerEnd.Format = DateTimePickerFormat.Custom;
             timePickerEnd.CustomFormat = "HH:mm";
             timePickerEnd.ShowUpDown = true;
+        }
+
+        public void showSetButton()
+        {
+            setButton.Show();
+        }
+
+        public void hideNonDoctorControlls()
+        {
+            fname_label.Hide();
+            fname_textBox.Hide();
+            sname_label.Hide();
+            sname_textBox.Hide();
+            specialization_Label.Hide();
+            specialization_TextBox.Hide();
+            doctorLabel.Hide();
+            doctorTextBox.Hide();
         }
     }
 }

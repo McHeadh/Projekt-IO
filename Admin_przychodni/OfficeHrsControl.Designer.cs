@@ -43,6 +43,12 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.filterButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.fname_textBox = new System.Windows.Forms.TextBox();
+            this.fname_label = new System.Windows.Forms.Label();
+            this.sname_label = new System.Windows.Forms.Label();
+            this.sname_textBox = new System.Windows.Forms.TextBox();
+            this.specialization_Label = new System.Windows.Forms.Label();
+            this.specialization_TextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // officeLabel
@@ -181,10 +187,64 @@
             this.label2.TabIndex = 18;
             this.label2.Text = "label2";
             // 
+            // fname_textBox
+            // 
+            this.fname_textBox.Location = new System.Drawing.Point(38, 34);
+            this.fname_textBox.Name = "fname_textBox";
+            this.fname_textBox.Size = new System.Drawing.Size(80, 20);
+            this.fname_textBox.TabIndex = 19;
+            // 
+            // fname_label
+            // 
+            this.fname_label.AutoSize = true;
+            this.fname_label.Location = new System.Drawing.Point(35, 18);
+            this.fname_label.Name = "fname_label";
+            this.fname_label.Size = new System.Drawing.Size(29, 13);
+            this.fname_label.TabIndex = 20;
+            this.fname_label.Text = "Imie:";
+            // 
+            // sname_label
+            // 
+            this.sname_label.AutoSize = true;
+            this.sname_label.Location = new System.Drawing.Point(124, 20);
+            this.sname_label.Name = "sname_label";
+            this.sname_label.Size = new System.Drawing.Size(56, 13);
+            this.sname_label.TabIndex = 21;
+            this.sname_label.Text = "Nazwisko:";
+            // 
+            // sname_textBox
+            // 
+            this.sname_textBox.Location = new System.Drawing.Point(127, 34);
+            this.sname_textBox.Name = "sname_textBox";
+            this.sname_textBox.Size = new System.Drawing.Size(80, 20);
+            this.sname_textBox.TabIndex = 22;
+            // 
+            // specialization_Label
+            // 
+            this.specialization_Label.AutoSize = true;
+            this.specialization_Label.Location = new System.Drawing.Point(216, 20);
+            this.specialization_Label.Name = "specialization_Label";
+            this.specialization_Label.Size = new System.Drawing.Size(72, 13);
+            this.specialization_Label.TabIndex = 23;
+            this.specialization_Label.Text = "Specializacja:";
+            // 
+            // specialization_TextBox
+            // 
+            this.specialization_TextBox.Location = new System.Drawing.Point(219, 34);
+            this.specialization_TextBox.Name = "specialization_TextBox";
+            this.specialization_TextBox.Size = new System.Drawing.Size(80, 20);
+            this.specialization_TextBox.TabIndex = 24;
+            // 
             // OfficeHrsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.specialization_TextBox);
+            this.Controls.Add(this.specialization_Label);
+            this.Controls.Add(this.sname_textBox);
+            this.Controls.Add(this.sname_label);
+            this.Controls.Add(this.fname_label);
+            this.Controls.Add(this.fname_textBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.filterButton);
@@ -225,5 +285,11 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox fname_textBox;
+        private System.Windows.Forms.Label fname_label;
+        private System.Windows.Forms.Label sname_label;
+        private System.Windows.Forms.TextBox sname_textBox;
+        private System.Windows.Forms.Label specialization_Label;
+        private System.Windows.Forms.TextBox specialization_TextBox;
     }
 }

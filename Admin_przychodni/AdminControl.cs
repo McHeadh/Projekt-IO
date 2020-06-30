@@ -27,8 +27,8 @@ namespace Admin_przychodni
         MySqlCommand command;
         MySqlDataReader reader;
 
-        private bool isDoctor = false;
-        private bool isReceptionist = false;
+        private bool doingDoctor = false;
+        private bool doingReceptionist = false;
         private string fname = "";  // first name
         private string sname = ""; // second name
         private string spec = ""; // doctor specialization
@@ -217,7 +217,7 @@ namespace Admin_przychodni
 
         private void DoctorActions()
         {
-            isDoctor = true;
+            doingDoctor = true;
             Switch();
             specLabel.Show();
             specTextBox.Show();
@@ -225,7 +225,7 @@ namespace Admin_przychodni
 
         private void ReceptionistActions()
         {
-            isReceptionist = true;
+            doingReceptionist = true;
             Switch();
         }
 
@@ -274,6 +274,7 @@ namespace Admin_przychodni
         {
             HideButtons();
             officeHrsControl1.Show(); // needs a rework because back button is inside officeHrsControl1
+            officeHrsControl1.showSetButton();
         }
 
         private void addReceptionist_Click(object sender, EventArgs e)
@@ -304,14 +305,14 @@ namespace Admin_przychodni
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1.isAdministrator = false;
+            //Form1.isAdministrator = false;
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            if (isDoctor)
+            if (doingDoctor)
                 AddDoctor();
-            if (isReceptionist)
+            if (doingReceptionist)
                 AddReceptionist();
         }
 

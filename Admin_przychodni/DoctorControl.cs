@@ -15,6 +15,8 @@ namespace Admin_przychodni
         public DoctorControl()
         {
             InitializeComponent();
+
+            officeHrsControl1.hideNonDoctorControlls();
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
