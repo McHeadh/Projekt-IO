@@ -200,7 +200,7 @@ namespace Admin_przychodni
             else if(name.Length != 0)
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + name + "'";
             else if (surname.Length != 0)
-                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.FirstName='" + surname + "'";
+                select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE d.SecondName='" + surname + "'";
             else if (datePicker.CustomFormat == "dd/MM/yyyy")
                 select = "SELECT d.SecondName, d.FirstName, o.Office, o.Date, o.Begin, o.End, d.Specialization FROM (sql7313340.Accounts a JOIN sql7313340.Doctors d ON a.Id = d.Id_account JOIN sql7313340.Offices o ON d.Id = o.Id_doctor) WHERE DATE(o.Date)='" + date + "'";
             else
@@ -251,6 +251,8 @@ namespace Admin_przychodni
         {
             setButton.Show();
             infoLabel.Show();
+            doctorLabel.Show();
+            doctorTextBox.Show();
         }
 
         public void hideNonDoctorControlls()

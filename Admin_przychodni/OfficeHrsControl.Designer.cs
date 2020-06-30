@@ -112,6 +112,7 @@
             this.doctorLabel.Size = new System.Drawing.Size(42, 13);
             this.doctorLabel.TabIndex = 9;
             this.doctorLabel.Text = "Lekarz:";
+            this.doctorLabel.Visible = false;
             // 
             // doctorTextBox
             // 
@@ -119,6 +120,7 @@
             this.doctorTextBox.Name = "doctorTextBox";
             this.doctorTextBox.Size = new System.Drawing.Size(100, 20);
             this.doctorTextBox.TabIndex = 10;
+            this.doctorTextBox.Visible = false;
             // 
             // setButton
             // 
